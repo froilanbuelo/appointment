@@ -26,12 +26,12 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 $factory->define(App\Event::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->name,
-        'location' => $faker->unique()->safeEmail,
-        'description' => $password ?: $password = bcrypt('secret'),
-        'link' => str_random(10),
-        'maximum_invitee' => $faker->name,
-        'color' => $faker->name,
-        'is_active' => $faker->name,
-        'user_id' => $faker->name
+        'location' => $faker->streetAddress,
+        'description' => $faker->text($maxNbChars = 200),
+        'link' => $faker->slug,
+        'maximum_invitee' => $faker->numberBetween($min = 1, $max = 50),
+        'color' => $faker->hexcolor,
+        'is_active' => $faker->numberBetween($min = 0, $max = 1),
+        'user_id' => App\User::all()->random()->id,
     ];
 });

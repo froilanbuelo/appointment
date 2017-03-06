@@ -18,12 +18,10 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index');
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index');
+Route::get('/home', 'EventController@index');
 
 Route::group(['middleware'=>'auth'], function(){
 	Route::resource('event', 'EventController');
+	Route::get('event/{id}/activate', 'EventActivationController@activate')->name('event.activate');
+	Route::get('event/{id}/deactivate', 'EventActivationController@deactivate')->name('event.deactivate');
 });

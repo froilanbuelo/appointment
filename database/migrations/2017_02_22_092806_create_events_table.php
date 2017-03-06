@@ -19,11 +19,15 @@ class CreateEventsTable extends Migration
             $table->string('location')->nullable();
             $table->text('description');
             $table->string('link')->nullable();
+            $table->string('duration_hours')->nullable();
+            $table->string('duration_minutes')->nullable();
             $table->integer('maximum_invitee')->unsigned()->nullable();
             $table->string('color')->nullable();
             $table->boolean('is_active')->nullable();
             $table->integer('user_id')->unsigned()->nullable();
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 
@@ -34,6 +38,9 @@ class CreateEventsTable extends Migration
      */
     public function down()
     {
+        Schema::table('events', function (Blueprint $table) {
+            $table->dropForeign('events_user_id_foreign');
+        });    
         Schema::dropIfExists('events');
     }
 }

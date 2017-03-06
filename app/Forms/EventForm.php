@@ -11,12 +11,14 @@ class EventForm extends Form
         $this
             ->add('name', 'text')
             ->add('location', 'text')
-            ->add('description', 'textarea',['attr'=>['rows'=>4]])
+            ->add('description', 'textarea')
             ->add('link', 'text')
-            ->add('maximum_invitee', 'number',['attr'=>['min'=>0]])
-            ->add('color', 'select')
-            ->add('is_active', 'checkbox')
-            ->add('submit', 'submit', ['label' => 'Save','attr'=>['class'=>'btn btn-primary']])
+            ->add('duration_hours', 'number')
+            ->add('duration_minutes', 'number')
+            ->add('maximum_invitee', 'number')
+            ->add('color', 'text')
+            //->add('is_active', 'checkbox')
+            ->add('submit', 'submit')
         ;
     }
 }

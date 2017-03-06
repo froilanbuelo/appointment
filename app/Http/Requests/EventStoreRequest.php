@@ -27,7 +27,25 @@ class EventStoreRequest extends FormRequest
         return [
             'name' => 'required',
             'description' => 'required',
-            'color'=>'required'
+            'color'=>'required',
+            'is_active' => 'boolean',
+            'duration_hours' => 'min:0|required_if:duration_minutes,0',
+            'duration_minutes' => 'min:0|required_if:duration_hours,0'
         ];
+    }
+
+    public function durationHoursAndMinutesAreBothZero($hours,$minutes){
+        return ($hours == 0 && $minutes == 0); 
+    }
+
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            $data = $validator->getData();
+            if ($this->durationHoursAndMinutesAreBothZero($data['duration_hours'],$data['duration_minutes'])) {
+                $validator->errors()->add('duration_hours', 'Duration is required');
+                $validator->errors()->add('duration_minutes', 'Duration is required');
+            }
+        });
     }
 }

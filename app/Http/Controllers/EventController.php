@@ -23,7 +23,9 @@ class EventController extends Controller
      */
     public function index()
     {
-        //
+        $events = Auth::user()->events;
+        return view('event.index',compact('events'));
+
     }
 
     /**
@@ -49,10 +51,8 @@ class EventController extends Controller
      */
     public function store(EventStoreRequest $request)
     {
-        $event = $this->event->create($request->input());
-        $event->user()->associate(Auth::user());
-        $event->save();
-        return $event;
+        $event = Auth::user()->events()->create($request->input());
+        return redirect()->route('event.index');
     }
 
     /**
@@ -72,9 +72,16 @@ class EventController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id, FormBuilder $formBuilder)
     {
-        //
+        $event = Auth::user()->events()->findOrFail($id);
+        $form = $formBuilder->create('App\Forms\EventForm', [
+            'method' => 'PATCH',
+            'model' => $event,
+            'url' => route('event.update',$id)
+        ]);
+
+        return view('event.edit', compact('form'));
     }
 
     /**
@@ -86,7 +93,9 @@ class EventController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        //$request['is_active'] = $request->has('is_active')?1:0;
+        $event = Auth::user()->events()->findOrFail($id)->update($request->input());
+        return redirect()->route('event.index');
     }
 
     /**

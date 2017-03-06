@@ -19,6 +19,8 @@ class CreateAccountsTable extends Migration
             $table->string('url');
             $table->integer('owner_user_id')->unsigned()->nullable();
             $table->timestamps();
+
+            $table->foreign('owner_user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 
@@ -29,6 +31,9 @@ class CreateAccountsTable extends Migration
      */
     public function down()
     {
+        Schema::table('accounts', function (Blueprint $table) {
+            $table->dropForeign('accounts_owner_user_id_foreign');
+        });
         Schema::dropIfExists('accounts');
     }
 }
