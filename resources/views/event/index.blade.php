@@ -23,7 +23,7 @@
                             @foreach($events as $event)
                             <tr>
                                 <td>{{$event->name}}</td>
-                                <td><a href="">{{$event->link}}</a></td>
+                                <td><a href="{{$event->getUrl()}}">{{$event->link}}</a></td>
                                 <td>{{$event->is_active?"On":"Off"}}</td>
                                 <td>
                                     <div class="dropdown">

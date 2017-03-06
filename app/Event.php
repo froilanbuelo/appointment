@@ -10,4 +10,12 @@ class Event extends Model
     public function user(){
     	return $this->belongsTo('App\User');
     }
+    public function getUrl() {
+		return url('/'.$this->user->username.'/'.$this->link);
+	}
+
+	// public function getRouteKeyName()
+ //    {
+ //        return 'link';
+ //    }
 }

@@ -6,7 +6,7 @@
                     {!! form_label($form->link); !!}
                     <div class="row">
                         <div class="col-sm-6">
-                            appointment.dev/{{Auth::user()->name}}/
+                            {{url('/'.Auth::user()->username)}}/
                         </div>
                         <div class="col-sm-6">{!! form_widget($form->link); !!}</div>
                     </div>

@@ -12,6 +12,8 @@
 |
 */
 
+
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -21,7 +23,13 @@ Auth::routes();
 Route::get('/home', 'EventController@index');
 
 Route::group(['middleware'=>'auth'], function(){
+
 	Route::resource('event', 'EventController');
 	Route::get('event/{id}/activate', 'EventActivationController@activate')->name('event.activate');
 	Route::get('event/{id}/deactivate', 'EventActivationController@deactivate')->name('event.deactivate');
+
+	Route::get('{user}/{event}', 'EventUrlController@show');//->where('user', '[a-z0-9](-?[a-z0-9]*)')->where('event', '[a-z0-9](-?[a-z0-9]*)');
+	// Route::get('{user}/{event}', function (App\User $user App\Event $event) {
+	//     return redirect()->route('event.id');
+	// });
 });
