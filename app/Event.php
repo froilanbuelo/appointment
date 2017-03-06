@@ -13,9 +13,7 @@ class Event extends Model
     public function getUrl() {
 		return url('/'.$this->user->username.'/'.$this->link);
 	}
-
-	// public function getRouteKeyName()
- //    {
- //        return 'link';
- //    }
+	public function availability(){
+    	return $this->hasOne('App\Availability');
+    }
 }

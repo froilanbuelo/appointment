@@ -25,6 +25,7 @@ Route::get('/home', 'EventController@index');
 Route::group(['middleware'=>'auth'], function(){
 
 	Route::resource('event', 'EventController');
+	Route::resource('availability', 'AvailabilityController');
 	Route::get('event/{id}/activate', 'EventActivationController@activate')->name('event.activate');
 	Route::get('event/{id}/deactivate', 'EventActivationController@deactivate')->name('event.deactivate');
 

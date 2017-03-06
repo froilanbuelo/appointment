@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 class EventUrlController extends Controller
 {
     public function show($user,$event){
-
     	$eventInstance = 
     		Event::with('user')->whereHas('user', function ($query) use ($user) {
 			    $query->where('username', '=', $user);

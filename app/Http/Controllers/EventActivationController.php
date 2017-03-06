@@ -14,7 +14,6 @@ class EventActivationController extends Controller
         Session::flash('flash_type', 'alert-success');
     	return redirect()->route('event.index');
     }
-
     public function deactivate($id){
     	Auth::user()->events()->find($id)->update(['is_active'=>0]);
     	Session::flash('flash_message', '<b>Success!</b> Event Deactivated.');

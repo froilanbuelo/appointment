@@ -13,7 +13,7 @@ use Session;
 class EventController extends Controller
 {
     protected $event;
-    public function __construct(Event $event){
+    public function __construct(EventRepository $event){
         $this->event = $event;
     }
     /**
@@ -51,7 +51,8 @@ class EventController extends Controller
      */
     public function store(EventStoreRequest $request)
     {
-        $event = Auth::user()->events()->create($request->input());
+        // $event = Auth::user()->events()->create($request->input());
+        $this->event->create($request->input());
         Session::flash('flash_message', '<b>Success!</b> Event created.');
         Session::flash('flash_type', 'alert-success');
         return redirect()->route('event.index');
@@ -65,7 +66,9 @@ class EventController extends Controller
      */
     public function show($id)
     {
-        //
+        // $eventInstance = Event::with('user')->findOrFail($id);
+        $eventInstance = $this->event->find($id);
+        return view('event.show',compact('eventInstance'));
     }
 
     /**
@@ -96,12 +99,11 @@ class EventController extends Controller
     public function update(Request $request, $id)
     {
         //$request['is_active'] = $request->has('is_active')?1:0;
-        $event = Auth::user()->events()->findOrFail($id)->update($request->input());
-
+        $event = $this->event->find($id);
+        $event->update($request->input());
         Session::flash('flash_message', '<b>Success!</b> Event Saved.');
         Session::flash('flash_type', 'alert-success');
-
-        return redirect()->route('event.index');
+        return redirect()->route('availability.edit',$event->availability->id);
     }
 
     /**
@@ -113,10 +115,8 @@ class EventController extends Controller
     public function destroy($id)
     {
         $event = Auth::user()->events()->findOrFail($id)->delete();
-
         Session::flash('flash_message', '<b>Success!</b> Event Deleted.');
         Session::flash('flash_type', 'alert-success');
-
         return redirect()->route('event.index');
     }
 }
