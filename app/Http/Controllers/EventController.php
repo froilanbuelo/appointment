@@ -8,7 +8,7 @@ use App\Repositories\EventRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Kris\LaravelFormBuilder\FormBuilder;
-
+use Session;
 
 class EventController extends Controller
 {
@@ -52,6 +52,8 @@ class EventController extends Controller
     public function store(EventStoreRequest $request)
     {
         $event = Auth::user()->events()->create($request->input());
+        Session::flash('flash_message', '<b>Success!</b> Event created.');
+        Session::flash('flash_type', 'alert-success');
         return redirect()->route('event.index');
     }
 
@@ -95,6 +97,10 @@ class EventController extends Controller
     {
         //$request['is_active'] = $request->has('is_active')?1:0;
         $event = Auth::user()->events()->findOrFail($id)->update($request->input());
+
+        Session::flash('flash_message', '<b>Success!</b> Event Saved.');
+        Session::flash('flash_type', 'alert-success');
+
         return redirect()->route('event.index');
     }
 
@@ -106,6 +112,11 @@ class EventController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $event = Auth::user()->events()->findOrFail($id)->delete();
+
+        Session::flash('flash_message', '<b>Success!</b> Event Deleted.');
+        Session::flash('flash_type', 'alert-success');
+
+        return redirect()->route('event.index');
     }
 }

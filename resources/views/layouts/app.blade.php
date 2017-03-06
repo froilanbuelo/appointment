@@ -55,6 +55,7 @@
                             <li><a href="{{ route('login') }}">Login</a></li>
                             <li><a href="{{ route('register') }}">Register</a></li>
                         @else
+                            <li><a href="{{ route('event.index') }}">Events</a></li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                     {{ Auth::user()->name }} <span class="caret"></span>
@@ -79,6 +80,21 @@
                 </div>
             </div>
         </nav>
+        
+        @if ( Session::has('flash_message') )
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    <div class="alert {!! Session::get('flash_type') !!}" role="alert"> {!! Session::get('flash_message') !!}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @endif
+        
 
         @yield('content')
     </div>
